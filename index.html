@@ -202,7 +202,7 @@ const SCHEMA = [
     { id:"halftijds", type:"textarea", label:"Stel: er komt morgen iemand halftijds bij die alléén saai, repetitief werk mag doen. Wat geeft u hem als eerste?" },
     { id:"domste", type:"text", label:"Wat is het domste stuk werk dat u nog altijd zelf moet doen?" },
     { id:"nooit", type:"textarea", label:"En wat zou u zeker níét uit handen geven aan een computer?",
-      hint:"Even belangrijk om te weten. Denk aan werk waar oordeel, verantwoordelijkheid of vertrouwelijkheid bij komt kijken." },
+      hint:"Minstens zo belangrijk voor ons als de rest. Ter info: AI werkt niet blind — hij stelt zelf een vraag wanneer iets onduidelijk is, en kan werk voorbereiden dat u daarna nog nakijkt en goedkeurt. Denk vooral aan werk waar oordeel, verantwoordelijkheid of vertrouwelijkheid bij komt kijken." },
     { id:"ervaring", type:"radio", label:"Wordt er in uw bedrijf al AI gebruikt voor het werk?",
       hint:"Bijvoorbeeld ChatGPT, Copilot of Claude.",
       options:["Nee, nog niet","Ja, enkelen op eigen initiatief","Ja, meerdere mensen regelmatig","Weet ik niet"] }
@@ -211,8 +211,7 @@ const SCHEMA = [
   { title: "Tot slot", questions: [
     { id:"contact", type:"contact", label:"Uw gegevens",
       hint:"Nodig om u de samenvatting te bezorgen. Mag ook leeg blijven — dan blijft uw inzending volledig anoniem.",
-      fields:[{key:"naam",label:"Naam"},{key:"bedrijf",label:"Bedrijf"},{key:"email",label:"E-mail",type:"email"},{key:"tel",label:"Telefoon (optioneel)"}],
-      consent:{ key:"bellen", label:"U mag me tien minuten bellen om door te vragen op mijn antwoorden." } }
+      fields:[{key:"naam",label:"Naam"},{key:"bedrijf",label:"Bedrijf"},{key:"email",label:"E-mail",type:"email"},{key:"tel",label:"Telefoon (optioneel)"}] }
   ]}
 ];
 
