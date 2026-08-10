@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Waar gaat de tijd naartoe? — kort onderzoek wegenbouw</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Kort onderzoek naar herhaalwerk in de wegenbouw en riolering. Invullen duurt ongeveer vijf minuten.">
+<style>
+  :root{
+    --bg:#f7f6f3; --card:#fff; --ink:#1c1c1a; --muted:#6b6a65;
+    --line:#dedcd6; --accent:#0b5d3b; --accent-ink:#fff; --focus:#0b5d3b;
+    --ok:#0b5d3b; --warn:#8a4b12; --radius:10px;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px 80px}
+
+  header.top{background:var(--card);border-bottom:1px solid var(--line);padding:28px 0 24px;margin-bottom:24px}
+  header.top .wrap{padding-bottom:0}
+  h1{font-size:26px;line-height:1.25;margin:0 0 10px;letter-spacing:-.01em}
+  .lede{color:var(--muted);margin:0;max-width:56ch}
+  .meta{margin-top:14px;font-size:14px;color:var(--muted)}
+  .meta b{color:var(--ink);font-weight:600}
+
+  .bar{position:sticky;top:0;z-index:5;height:4px;background:var(--line)}
+  .bar>i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s ease}
+
+  section{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;margin:0 0 16px}
+  section>h2{font-size:13px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:0 0 4px;font-weight:700}
+  section>p.sub{margin:0 0 18px;color:var(--muted);font-size:14px}
+
+  .q{padding:16px 0;border-top:1px solid var(--line)}
+  .q:first-of-type{border-top:0;padding-top:4px}
+  .q>label.lbl,.q>fieldset>legend{display:block;font-weight:600;margin:0 0 4px;padding:0}
+  .num{color:var(--muted);font-weight:600;margin-right:6px}
+  .hint{color:var(--muted);font-size:14px;margin:0 0 10px}
+
+  fieldset{border:0;margin:0;padding:0}
+
+  input[type=text],input[type=number],input[type=email],textarea,select{
+    width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:8px;
+    background:#fff;color:var(--ink);font:inherit;
+  }
+  textarea{resize:vertical;min-height:76px}
+  input:focus,textarea:focus,select:focus{outline:2px solid var(--focus);outline-offset:1px;border-color:var(--focus)}
+
+  .opts{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+  .opts.row{flex-direction:row;flex-wrap:wrap}
+  .opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:8px;
+       padding:10px 12px;cursor:pointer;background:#fff;min-height:44px}
+  .opts.row .opt{flex:0 1 auto}
+  .opt:hover{border-color:#b9b6ae}
+  .opt input{margin:2px 0 0;accent-color:var(--accent);width:18px;height:18px;flex:none}
+  .opt:has(input:checked){border-color:var(--accent);background:#f2f7f4;box-shadow:inset 0 0 0 1px var(--accent)}
+  .opt:has(input:focus-visible){outline:2px solid var(--focus);outline-offset:1px}
+  .other{margin-top:8px}
+
+  .lines{display:flex;flex-direction:column;gap:8px}
+  .row2{display:flex;gap:10px;flex-wrap:wrap}
+  .row2>div{flex:1 1 200px}
+  .row2 label{display:block;font-size:14px;color:var(--muted);margin-bottom:4px}
+
+  .callout{background:#f2f7f4;border-left:3px solid var(--accent);padding:12px 14px;border-radius:0 8px 8px 0;
+           font-size:14px;color:var(--ink);margin:0 0 18px}
+
+  .actions{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px;text-align:center}
+  button{font:inherit;cursor:pointer;border-radius:8px;border:1px solid transparent;padding:13px 22px;min-height:48px}
+  .btn-primary{background:var(--accent);color:var(--accent-ink);font-weight:600;width:100%;font-size:17px}
+  .btn-primary:hover{filter:brightness(1.1)}
+  .btn-primary:disabled{opacity:.55;cursor:progress}
+  .btn-ghost{background:#fff;border-color:var(--line);color:var(--ink);font-weight:500}
+  .btn-ghost:hover{border-color:#b9b6ae}
+  .after{margin-top:12px;font-size:13px;color:var(--muted)}
+
+  .status{margin-top:14px;padding:14px;border-radius:8px;font-size:15px;display:none;text-align:left}
+  .status.show{display:block}
+  .status.ok{background:#eef5f0;border:1px solid #bcd8c8;color:#144a31}
+  .status.err{background:#fdf3ea;border:1px solid #e8cfae;color:#6b3a0d}
+  .status .fallback{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+
+  .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+  footer{color:var(--muted);font-size:13px;text-align:center;margin-top:22px;line-height:1.7}
+
+  .done{display:none;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:40px 24px;text-align:center}
+  .done.show{display:block}
+  .done h2{margin:0 0 10px;font-size:22px}
+  .done p{color:var(--muted);margin:0 auto;max-width:44ch}
+  .tick{width:52px;height:52px;border-radius:50%;background:#eef5f0;color:var(--accent);
+        display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:26px;font-weight:700}
+
+  @media print{
+    .bar,.actions,.saved{display:none}
+    body{background:#fff}
+    section{break-inside:avoid;border-color:#999}
+  }
+  @media (max-width:520px){
+    h1{font-size:22px}
+    section{padding:16px}
+  }
+</style>
+</head>
+<body>
+
+<div class="bar" aria-hidden="true"><i id="progress"></i></div>
+
+<header class="top">
+  <div class="wrap">
+    <h1>Waar gaat de tijd naartoe?</h1>
+    <p class="lede">Kort onderzoek naar herhaalwerk in de wegenbouw en riolering. Geen verkooppraat — ik wil begrijpen waar in een gewone werkweek tijd verloren gaat aan werk dat niemand graag doet.</p>
+    <p class="meta"><b>± 5 minuten.</b> Korte antwoorden volstaan — één regel is prima. Niets is verplicht. Uw antwoorden worden vertrouwelijk behandeld en enkel geanonimiseerd samengevat.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <form id="form" novalidate autocomplete="off">
+    <div class="hp" aria-hidden="true">
+      <label>Laat dit veld leeg<input type="text" name="_gotcha" tabindex="-1" autocomplete="off"></label>
+    </div>
+    <div id="sections"></div>
+
+    <div class="actions">
+      <button type="submit" class="btn-primary" id="submit">Antwoorden versturen</button>
+      <p class="after" id="saved">Uw antwoorden worden automatisch bewaard in deze browser — u mag tussentijds stoppen.</p>
+      <div class="status" id="status" role="status" aria-live="polite"></div>
+    </div>
+  </form>
+
+  <div class="done" id="done">
+    <div class="tick" aria-hidden="true">✓</div>
+    <h2>Bedankt — goed ontvangen.</h2>
+    <p>U krijgt de geanonimiseerde samenvatting toegestuurd zodra er genoeg antwoorden binnen zijn. Als u aangaf dat bellen mag, neem ik contact op.</p>
+  </div>
+
+  <footer>
+    Vragen over dit onderzoek? Antwoord gerust op de mail waarmee u deze pagina kreeg.
+  </footer>
+</div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   CONFIGURATIE — enige plek die je moet aanpassen
+   ───────────────────────────────────────────────────────────── */
+const CONFIG = {
+  // Waar de antwoorden heen gaan. Laat leeg ("") om terug te vallen op
+  // downloaden + mailen — dan werkt het formulier ook zonder enige setup.
+  //
+  // Snelste route (± 2 min, geen account nodig): Web3Forms.
+  //   1. Ga naar web3forms.com, vul je e-mailadres in, je krijgt een access key.
+  //   2. endpoint  : "https://api.web3forms.com/submit"
+  //      extraBody : { access_key: "je-key-hier" }
+  //
+  // Alternatief (± 5 min, wel een account): Formspree.
+  //   endpoint: "https://formspree.io/f/JOUW-ID"   (extraBody mag leeg)
+  //
+  // Later zelf hosten? Zet hier je eigen API-endpoint; het formulier post
+  // JSON: { form, submittedAt, answers:{...} } plus wat in extraBody staat.
+  //
+  // Controleer de exacte endpoint-URL en veldnaam even in de documentatie van
+  // de dienst die je kiest — die kunnen wijzigen.
+  endpoint: "https://api.web3forms.com/submit",
+  extraBody: { access_key: "c89b2b1e-f590-4a61-9de1-764fa3ffbaa6" },
+
+  // Gebruikt in de fallback (geen endpoint ingesteld, of versturen faalt).
+  contactEmail: "info@selux-tools.com",
+
+  // Sleutel voor tussentijds bewaren in de browser.
+  storageKey: "selux-tijdverlies-v1"
+};
+
+/* ─────────────────────────────────────────────────────────────
+   VRAGEN — bewerk hier de inhoud, de rest past zich aan
+   ───────────────────────────────────────────────────────────── */
+const SCHEMA = [
+  { title: "Over u", questions: [
+    { id:"functie", type:"radio", label:"Wat is uw functie?",
+      options:["Zaakvoerder / directie","Werfleider","Calculator / werkvoorbereider","Projectleider","Administratie / boekhouding"], other:true },
+    { id:"grootte", type:"radio", row:true, label:"Hoeveel mensen werken er in het bedrijf?",
+      options:["< 10","10–25","25–50","50–150","> 150"] },
+    { id:"schermtijd", type:"radio", row:true, label:"Hoeveel van uw week zit u achter een scherm?",
+      options:["< 10%","10–25%","25–50%","50–75%","> 75%"] }
+  ]},
+
+  { title: "De herhaling",
+    intro:"Deze vragen gaan over vórige week — niet over hoe het idealiter zou moeten.",
+    questions: [
+    { id:"herhaling", type:"lines", n:3, label:"Wat hebt u vorige week meer dan één keer gedaan?",
+      hint:"De drie dingen die het vaakst terugkwamen. Hoe concreter, hoe beter.",
+      placeholders:["Bijvoorbeeld: metingen overtikken in Excel","",""] },
+    { id:"minstleuk", type:"text", label:"Welke van die drie doet u het minst graag?" },
+    { id:"vastmoment", type:"textarea", label:"Is er iets dat u élke week op hetzelfde moment doet?",
+      hint:"Bijvoorbeeld vrijdagnamiddag, of maandagochtend voor de start." },
+    { id:"tijd", type:"radio", row:true, label:"Hoeveel tijd kruipt daar per week ongeveer in?",
+      options:["< 1 uur","1–3 uur","3–8 uur","Meer dan een dag"] }
+  ]},
+
+  { title: "Dubbel werk", questions: [
+    { id:"overtikken", type:"textarea", label:"Waar tikt u informatie over die ergens anders al ingevuld staat?",
+      hint:"Van papier naar Excel, van een mail naar een programma, van het ene programma naar het andere." },
+    { id:"systemen", type:"textarea", label:"Hoeveel verschillende programma’s of systemen raakt u aan om één werf van start tot factuur te krijgen?",
+      hint:"Een aantal volstaat, maar noem ze gerust bij naam." },
+    { id:"fouten", type:"textarea", label:"Wat gebeurt er als er bij dat overtikken een fout insluipt?",
+      hint:"Hoe merkt u dat, en hoeveel werk is het om recht te zetten?" }
+  ]},
+
+  { title: "Rond de software", questions: [
+    { id:"programmas", type:"textarea", label:"Welke programma’s gebruikt u het meest?",
+      hint:"Zet er gerust bij welke goed werken en welke tegenwerken." },
+    { id:"voorna", type:"twin", label:"Wat doet u meestal vlak vóór u zo’n programma opent — en vlak nadat u het sluit?",
+      hint:"Een rare vraag, dat weet ik. De antwoorden erop zijn meestal het interessantst.",
+      fields:[{key:"voor",label:"Vlak ervoor"},{key:"na",label:"Vlak erna"}] },
+    { id:"papier", type:"textarea", label:"Is er iets dat u nog altijd op papier doet omdat het digitaal te lastig is?" }
+  ]},
+
+  { title: "Mail en documenten", questions: [
+    { id:"mailaantal", type:"radio", row:true, label:"Hoeveel mails krijgt u ongeveer per dag?",
+      options:["< 10","10–30","30–60","> 60"] },
+    { id:"mailtype", type:"textarea", label:"Welk type mail komt telkens in ongeveer dezelfde vorm terug?" },
+    { id:"documenten", type:"textarea", label:"Welk document moet u regelmatig samenstellen uit informatie die verspreid zit?",
+      hint:"Bijvoorbeeld een dossier voor de opdrachtgever, een keuringsverslag, een aanbestedingsdossier, een maandstaat." }
+  ]},
+
+  { title: "Tot slot", questions: [
+    { id:"halftijds", type:"textarea", label:"Stel: er komt morgen iemand halftijds bij die alléén saai, repetitief werk mag doen. Wat geeft u hem als eerste?" },
+    { id:"domste", type:"text", label:"Wat is het domste stuk werk dat u nog altijd zelf moet doen?" },
+    { id:"bellen", type:"radio", label:"Mag ik u hierover tien minuten bellen om door te vragen?",
+      options:["Ja, bel gerust","Liever niet, maar stuur me wel de resultaten","Nee, bedankt"] },
+    { id:"belmoment", type:"text", label:"Wanneer belt u het liefst?", hint:"Alleen invullen als bellen mag.",
+      placeholder:"Bijvoorbeeld: dinsdagvoormiddag" },
+    { id:"contact", type:"contact", label:"Uw gegevens",
+      hint:"Nodig om u de samenvatting te kunnen bezorgen. Mag ook leeg blijven — dan blijft het volledig anoniem.",
+      fields:[{key:"naam",label:"Naam"},{key:"bedrijf",label:"Bedrijf"},{key:"email",label:"E-mail",type:"email"},{key:"tel",label:"Telefoon (optioneel)"}] }
+  ]}
+];
+
+/* ─────────────────────────────────────────────────────────────
+   RENDERING
+   ───────────────────────────────────────────────────────────── */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let counter = 0;
+
+function renderQuestion(q){
+  counter++;
+  const n = counter;
+  const hint = q.hint ? `<p class="hint">${esc(q.hint)}</p>` : "";
+  const head = `<span class="num">${n}.</span>${esc(q.label)}`;
+
+  if (q.type === "radio"){
+    const opts = q.options.map((o,i) => `
+      <label class="opt"><input type="radio" name="${q.id}" value="${esc(o)}"><span>${esc(o)}</span></label>`).join("");
+    const other = q.other ? `
+      <label class="opt"><input type="radio" name="${q.id}" value="__other__"><span>Anders, namelijk:</span></label>
+      <input class="other" type="text" name="${q.id}__other" placeholder="Vul aan">` : "";
+    return `<div class="q"><fieldset><legend>${head}</legend>${hint}
+      <div class="opts ${q.row?'row':''}">${opts}${other}</div></fieldset></div>`;
+  }
+
+  if (q.type === "lines"){
+    const rows = Array.from({length:q.n}, (_,i) => `
+      <input type="text" name="${q.id}__${i+1}" placeholder="${esc((q.placeholders&&q.placeholders[i])||"")}" aria-label="${esc(q.label)} — ${i+1}">`).join("");
+    return `<div class="q"><label class="lbl">${head}</label>${hint}<div class="lines">${rows}</div></div>`;
+  }
+
+  if (q.type === "twin" || q.type === "contact"){
+    const cols = q.fields.map(f => `
+      <div><label for="${q.id}__${f.key}">${esc(f.label)}</label>
+      <input type="${f.type||'text'}" id="${q.id}__${f.key}" name="${q.id}__${f.key}"></div>`).join("");
+    return `<div class="q"><label class="lbl">${head}</label>${hint}<div class="row2">${cols}</div></div>`;
+  }
+
+  if (q.type === "text"){
+    return `<div class="q"><label class="lbl" for="${q.id}">${head}</label>${hint}
+      <input type="text" id="${q.id}" name="${q.id}" placeholder="${esc(q.placeholder||"")}"></div>`;
+  }
+
+  return `<div class="q"><label class="lbl" for="${q.id}">${head}</label>${hint}
+    <textarea id="${q.id}" name="${q.id}" rows="3"></textarea></div>`;
+}
+
+document.getElementById("sections").innerHTML = SCHEMA.map(s => `
+  <section>
+    <h2>${esc(s.title)}</h2>
+    ${s.intro ? `<p class="callout">${esc(s.intro)}</p>` : ""}
+    ${s.questions.map(renderQuestion).join("")}
+  </section>`).join("");
+
+/* ─────────────────────────────────────────────────────────────
+   STAAT: bewaren, herstellen, voortgang
+   ───────────────────────────────────────────────────────────── */
+const form = document.getElementById("form");
+const store = (()=>{ try{ localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return localStorage; }catch(e){ return null; } })();
+
+function collect(){
+  const out = {};
+  new FormData(form).forEach((v,k) => { if(k !== "_gotcha" && String(v).trim()) out[k] = String(v).trim(); });
+  return out;
+}
+
+function restore(){
+  if(!store) return;
+  let saved; try{ saved = JSON.parse(store.getItem(CONFIG.storageKey) || "{}"); }catch(e){ return; }
+  Object.entries(saved).forEach(([k,v]) => {
+    const els = form.elements[k];
+    if(!els) return;
+    if(els instanceof RadioNodeList || (els.length && !els.tagName)){
+      Array.from(els).forEach(el => { if(el.value === v) el.checked = true; });
+    } else { els.value = v; }
+  });
+}
+
+function tick(){
+  const total = form.querySelectorAll(".q").length;
+  let filled = 0;
+  form.querySelectorAll(".q").forEach(q => {
+    const has = Array.from(q.querySelectorAll("input,textarea"))
+      .some(el => el.name !== "_gotcha" && (el.type === "radio" ? el.checked : el.value.trim()));
+    if(has) filled++;
+  });
+  document.getElementById("progress").style.width = Math.round(filled/total*100) + "%";
+  if(store) store.setItem(CONFIG.storageKey, JSON.stringify(collect()));
+}
+
+form.addEventListener("input", tick);
+form.addEventListener("change", tick);
+restore(); tick();
+
+/* ─────────────────────────────────────────────────────────────
+   VERSTUREN
+   ───────────────────────────────────────────────────────────── */
+const statusEl = document.getElementById("status");
+const btn = document.getElementById("submit");
+
+function labelFor(key){
+  for(const s of SCHEMA) for(const q of s.questions){
+    if(key === q.id) return q.label;
+    if(key.startsWith(q.id + "__")){
+      const suf = key.slice(q.id.length + 2);
+      if(suf === "other") return q.label + " (anders)";
+      const f = (q.fields||[]).find(f => f.key === suf);
+      return q.label + " — " + (f ? f.label : suf);
+    }
+  }
+  return key;
+}
+
+function asText(data){
+  const lines = ["WAAR GAAT DE TIJD NAARTOE — ingevuld vragenblad",
+                 "Datum: " + new Date().toLocaleString("nl-BE"), ""];
+  Object.entries(data).forEach(([k,v]) => lines.push(labelFor(k), "  " + v, ""));
+  return lines.join("\n");
+}
+
+function say(kind, html){
+  statusEl.className = "status show " + kind;
+  statusEl.innerHTML = html;
+}
+
+function offerFallback(data, reason){
+  const text = asText(data);
+  say("err", `<strong>Automatisch versturen lukte niet.</strong> ${esc(reason)}<br>
+    Geen probleem — download uw antwoorden en mail ze naar
+    <a href="mailto:${esc(CONFIG.contactEmail)}">${esc(CONFIG.contactEmail)}</a>, of kopieer ze naar een mail.
+    <span class="fallback">
+      <button type="button" class="btn-ghost" id="dl">Antwoorden downloaden</button>
+      <button type="button" class="btn-ghost" id="cp">Kopiëren naar klembord</button>
+    </span>`);
+
+  document.getElementById("dl").onclick = () => {
+    const blob = new Blob([text], {type:"text/plain;charset=utf-8"});
+    const a = Object.assign(document.createElement("a"), {
+      href: URL.createObjectURL(blob),
+      download: "vragenblad-" + (data["contact__bedrijf"] || "antwoorden").replace(/[^\w-]+/g,"_") + ".txt"
+    });
+    a.click(); URL.revokeObjectURL(a.href);
+  };
+  document.getElementById("cp").onclick = async (e) => {
+    try{ await navigator.clipboard.writeText(text); e.target.textContent = "Gekopieerd ✓"; }
+    catch(err){ e.target.textContent = "Kopiëren lukte niet"; }
+  };
+}
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if(form.elements["_gotcha"].value) return;           // bot
+
+  const data = collect();
+  if(Object.keys(data).length < 3){
+    say("err", "Er is nog bijna niets ingevuld. Beantwoord minstens een paar vragen voor u verstuurt.");
+    return;
+  }
+
+  if(!CONFIG.endpoint){ offerFallback(data, "Er is nog geen verzendadres ingesteld."); return; }
+
+  btn.disabled = true; btn.textContent = "Versturen…";
+  statusEl.className = "status";
+
+  try{
+    // Leesbare velden (zodat form-naar-mail-diensten een nette mail sturen)
+    // + de ruwe structuur (voor een eigen endpoint dat het wil verwerken).
+    const leesbaar = {};
+    Object.entries(data).forEach(([k,v]) => { leesbaar[labelFor(k)] = v; });
+
+    const res = await fetch(CONFIG.endpoint, {
+      method: "POST",
+      headers: {"Content-Type":"application/json", "Accept":"application/json"},
+      body: JSON.stringify({
+        ...CONFIG.extraBody,
+        subject: "Vragenblad ingevuld — " + (data["contact__bedrijf"] || data["contact__naam"] || "anoniem"),
+        from_name: data["contact__naam"] || "Anonieme deelnemer",
+        form: "tijdverlies-wegenbouw",
+        submittedAt: new Date().toISOString(),
+        ...leesbaar,
+        answers: data
+      })
+    });
+    if(!res.ok) throw new Error("Server antwoordde met " + res.status);
+    if(store) store.removeItem(CONFIG.storageKey);
+    form.style.display = "none";
+    document.getElementById("done").classList.add("show");
+    window.scrollTo({top:0, behavior:"smooth"});
+  }catch(err){
+    offerFallback(data, "Technische melding: " + err.message + ".");
+  }finally{
+    btn.disabled = false; btn.textContent = "Antwoorden versturen";
+  }
+});
+</script>
+</body>
+</html>
